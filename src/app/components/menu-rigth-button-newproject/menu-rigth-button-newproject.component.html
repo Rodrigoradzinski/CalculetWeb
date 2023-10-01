@@ -1,0 +1,24 @@
+<div
+  id="menu-rigth-button"
+  class="right-click-menu"
+  *ngIf="showRightMenu"
+  [style.top.px]="menuTop"
+  [style.left.px]="menuLeft"
+>
+  <button id="send-to-back-button" (click)="sendShapeToBack()">
+    Enviar para trás
+  </button>
+  <button id="bring-to-front-button" (click)="bringShapeToFront()">
+    Enviar para frente
+  </button>
+  <button id="send-backward-button" (click)="sendShapeBackward()">
+    Enviar para trás (um nível)
+  </button>
+  <button id="bring-forward-button" (click)="bringShapeForward()">
+    Enviar para frente (um nível)
+  </button>
+</div>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+/>

@@ -1,0 +1,44 @@
+<mat-sidenav-container autosize class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    class="sidenav"
+    [class.sidenav-closed]="!isSidenavOpen"
+    mode="side"
+    [(opened)]="isSidenavOpen"
+  >
+    <button mat-icon-button (click)="toggleSidenav()" class="toggle">
+      <mat-icon>{{ isSidenavOpen ? "chevron_left" : "menu" }}</mat-icon>
+    </button>
+    <p>
+      <button class="clean-button" (click)="addRectangle()">
+        <mat-icon>add_box</mat-icon>
+        <span *ngIf="isSidenavOpen">Adicionar Retângulo</span>
+      </button>
+      <button class="clean-button" (click)="addCircle()">
+        <mat-icon>add_circle</mat-icon>
+        <span *ngIf="isSidenavOpen">Adicionar Círculo</span>
+      </button>
+      <button class="clean-button" (click)="addLine()">
+        <mat-icon>add</mat-icon>
+        <span *ngIf="isSidenavOpen">Adicionar Linha</span>
+      </button>
+      <button class="clean-button" (click)="addLayer()">
+        <mat-icon>layers</mat-icon>
+        <span *ngIf="isSidenavOpen">Adicionar Camada</span>
+      </button>
+    </p>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content-container">
+      <div id="container-id" #container></div>
+      <div class="shapes-container"></div>
+      <app-quote
+        [x1]="rectangleX1"
+        [x2]="rectangleX2"
+        [y1]="rectangleY1"
+        [y2]="rectangleY2"
+        [largura]="rectangleWidth"
+      ></app-quote>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

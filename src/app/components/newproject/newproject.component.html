@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="menu-container">
+    <app-menu-new-project></app-menu-new-project>
+  </div>
+  <div class="content-container">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #sidenav class="sidenav" mode="side" opened="true">
+        <!-- Conteúdo da sidenav -->
+      </mat-sidenav>
+      <div class="main-content">
+        <!-- Conteúdo principal, onde você vai adicionar as shapes -->
+        <div id="container-id" #container (contextmenu)="onRightClick($event)">
+          <!-- Componente app-quote para exibir as cotas -->
+        </div>
+      </div>
+    </mat-sidenav-container>
+  </div>
+  <app-menu-rigth-button-newproject></app-menu-rigth-button-newproject>
+</div>
+<div id="menu">
+  <div><button class="clean-button" (click)="exportDXF()"></button></div>
+</div>

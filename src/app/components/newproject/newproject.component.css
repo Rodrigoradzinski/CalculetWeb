@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+.container {
+  display: flex;
+}
+
+.container-id,
+.container {
+  overflow: hidden;
+}
+
+.menu-container {
+  width: 100px; /* Defina a largura desejada para o menu */
+}
+
+.content-container {
+  flex-grow: 1; /* Permite que o conteúdo cresça e ocupe o espaço restante */
+  padding-left: 0px; /* Adicione um espaçamento à esquerda para separar o conteúdo do menu */
+}
+
+/* Estilos adicionais para o container do componente NewprojectComponent */
+.container div {
+  height: 100vh; /* Defina a altura desejada para o container */
+}
+
+.content-container {
+  flex-grow: 1; /* Permite que o conteúdo cresça e ocupe o espaço restante */
+}

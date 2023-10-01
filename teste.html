@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>2D Drawing Example</title>
+    <style>
+      #canvas {
+        border: 1px solid black;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/js-dxf@1.0.0/dist/js-dxf.js"></script>
+  </head>
+  <body>
+    <h1>2D Drawing Example</h1>
+
+    <button onclick="setShape('rectangle')">Draw Rectangle</button>
+    <button onclick="setShape('line')">Draw Line</button>
+    <button onclick="setShape('circle')">Draw Circle (Hole)</button>
+    <button onclick="exportToDxf()">Export to DXF</button>
+
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const drawing = new jsDxf.Drawing(); // Inicialização da variável drawing
+        let currentShape = "rectangle"; // Forma atual
+        let startPoint = null; // Ponto de início para desenho
+        const shapes = []; // Array para armazenar formas
+        const canvas = document.getElementById("canvas"); // O elemento canvas
+        const ctx = canvas.getContext("2d"); // Contexto de desenho 2D
+        const rect = canvas.getBoundingClientRect(); // Pegar a posição do canvas
+
+        function setShape(shape) {
+          currentShape = shape;
+        }
+
+        canvas.addEventListener("mousedown", function (e) {
+          startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        });
+
+        canvas.addEventListener("mouseup", function (e) {
+          const endPoint = {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+          };
+
+          // ... (rest of the drawing logic and push shape to shapes array)
+
+          // Add to shapes array for DXF export
+          if (currentShape === "rectangle") {
+            const width = endPoint.x - startPoint.x;
+            const height = endPoint.y - startPoint.y;
+            ctx.strokeRect(startPoint.x, startPoint.y, width, height);
+            shapes.push({
+              type: "rectangle",
+              x: startPoint.x,
+              y: startPoint.y,
+              width,
+              height,
+            });
+          } else if (currentShape === "line") {
+            ctx.beginPath();
+            ctx.moveTo(startPoint.x, startPoint.y);
+            ctx.lineTo(endPoint.x, endPoint.y);
+            ctx.stroke();
+            shapes.push({
+              type: "line",
+              x1: startPoint.x,
+              y1: startPoint.y,
+              x2: endPoint.x,
+              y2: endPoint.y,
+            });
+          } else if (currentShape === "circle") {
+            const dx = endPoint.x - startPoint.x;
+            const dy = endPoint.y - startPoint.y;
+            const radius = Math.sqrt(dx * dx + dy * dy);
+            ctx.beginPath();
+            ctx.arc(startPoint.x, startPoint.y, radius, 0, Math.PI * 2);
+            ctx.stroke();
+            shapes.push({
+              type: "circle",
+              x: startPoint.x,
+              y: startPoint.y,
+              radius,
+            });
+          }
+        });
+
+        function exportToDxf() {
+          shapes.forEach((shape) => {
+            if (shape.type === "rectangle") {
+              const { x, y, width, height } = shape;
+              drawing.addPolyline([
+                { x, y },
+                { x: x + width, y },
+                { x: x + width, y: y + height },
+                { x, y: y + height },
+                { x, y }, // Fechar o retângulo
+              ]);
+            } else if (shape.type === "line") {
+              const { x1, y1, x2, y2 } = shape;
+              drawing.addPolyline([
+                { x: x1, y: y1 },
+                { x: x2, y: y2 },
+              ]);
+            } else if (shape.type === "circle") {
+              // A biblioteca js-dxf não suporta círculos diretamente
+              // Você pode aproximar um círculo usando uma polilinha
+              const { x, y, radius } = shape;
+              const points = [];
+              for (let angle = 0; angle < 360; angle += 10) {
+                const rad = angle * (Math.PI / 180);
+                points.push({
+                  x: x + radius * Math.cos(rad),
+                  y: y + radius * Math.sin(rad),
+                });
+              }
+              points.push(points[0]); // Fechar o círculo
+              drawing.addPolyline(points);
+            }
+          });
+
+          const dxfString = drawing.toDxfString();
+          const blob = new Blob([dxfString], { type: "application/dxf" });
+          const url = URL.createObjectURL(blob);
+
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = "drawing.dxf";
+
+          document.body.appendChild(a);
+          a.click();
+
+          window.URL.revokeObjectURL(url);
+        }
+      });
+    </script>
+  </body>
+</html>

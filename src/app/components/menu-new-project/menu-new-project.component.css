@@ -1,0 +1,48 @@
+.sidenav-container {
+  height: 100vh;
+  margin-right: 10px; /* Adicione a margem desejada aqui */
+}
+
+.clean-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 50px; /* ajuste de acordo com o tamanho do seu botão de alternância */
+  margin-bottom: 10px;
+  background-color: rgb(113, 116, 117);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mat-sidenav-content {
+  margin-left: 0 !important;
+}
+
+.content-container {
+  padding-left: 0px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 25px;
+}
+
+.container-id,
+.container {
+  overflow: hidden;
+}
+
+.menu-container {
+  width: 250px;
+  background-color: lightgray;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.toggle {
+  position: fixed; /* ou você pode usar 'absolute' dependendo do seu layout */
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
